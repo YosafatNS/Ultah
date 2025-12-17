@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kejutan Ultah Spesial! ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to bottom, #ff758c, #ff7eb3);
+            text-align: center;
+            color: white;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .card {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 25px;
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 10;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff4081, #ff79a9);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 64, 129, 0.6);
+        }
+        
+        #loveMeter {
+            font-size: 28px;
+            margin: 25px;
+            color: #ffeb3b;
+            min-height: 50px;
+            text-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
+        }
+        
+        /* ANIMASI UTAMA - FIXED TAPI SCROLLABLE */
+        .main-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999999999999;
+            display: none;
+            background: rgba(0, 0, 0, 0.95);
+            overflow-y: auto; /* BISA SCROLL */
+            pointer-events: auto;
+        }
+        
+        .animation-content {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        /* Kembang Api Cinta */
+        .firework {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: explode 1.8s forwards, fadeOut 1.8s forwards;
+            z-index: 999999999999;
+            pointer-events: none;
+        }
+        
+        .heart-firework {
+            position: absolute;
+            font-size: 28px;
+            animation: heartFloat 3s ease-in-out infinite;
+            z-index: 999999999999;
+            filter: drop-shadow(0 0 10px currentColor);
+            pointer-events: none;
+        }
+        
+        /* Container Foto - SETENGAH LAYAR */
+        .photo-container {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            display: none;
+            z-index: 999999999999;
+            pointer-events: auto;
+        }
+        
+        .love-photo {
+            width: 100%;
+            max-height: 50vh; /* SETENGAH LAYAR */
+            border-radius: 25px;
+            box-shadow: 
+                0 0 100px rgba(255, 64, 129, 1),
+                0 0 200px rgba(255, 107, 185, 0.7);
+            animation: photoGlow 2s ease-in-out infinite alternate;
+            border: 15px solid rgba(255, 255, 255, 0.95);
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .photo-frame {
+            position: relative;
+            padding: 30px;
+            background: linear-gradient(45deg, #ff4081, #ff79a9);
+            border-radius: 35px;
+            animation: framePulse 3s infinite;
+            margin-bottom: 30px;
+        }
+        
+        .photo-info {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            background: linear-gradient(90deg, transparent, rgba(255,64,129,0.8), transparent);
+            padding: 15px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
+            border-radius: 15px;
+        }
+        
+        /* TOMBOL CLOSE */
+        .close-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 64, 129, 0.9);
+            color: white;
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 36px;
+            cursor: pointer;
+            z-index: 1000000000000;
+            display: none;
+            box-shadow: 0 0 30px rgba(255, 64, 129, 0.8);
+            transition: all 0.3s;
+            animation: closeBtnPulse 2s infinite;
+        }
+        
+        .close-btn:hover {
+            transform: scale(1.2) rotate(90deg);
+            background: rgba(255, 107, 185, 1);
+            box-shadow: 0 0 50px rgba(255, 64, 129, 1);
+        }
+        
+        /* ANIMATIONS */
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(var(--tx), var(--ty)) scale(3);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(var(--tx2), var(--ty2)) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes heartFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0.8;
+            }
+            25% {
+                transform: translateY(-20px) rotate(90deg) scale(1.2);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-40px) rotate(180deg) scale(1);
+                opacity: 0.8;
+            }
+            75% {
+                transform: translateY(-20px) rotate(270deg) scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes photoGlow {
+            0% {
+                box-shadow: 
+                    0 0 80px rgba(255, 64, 129, 1),
+                    0 0 160px rgba(255, 107, 185, 0.7);
+                transform: scale(0.98);
+            }
+            100% {
+                box-shadow: 
+                    0 0 120px rgba(255, 64, 129, 1),
+                    0 0 240px rgba(255, 107, 185, 0.9);
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes framePulse {
+            0%, 100% {
+                box-shadow: 0 0 50px rgba(255, 64, 129, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 100px rgba(255, 64, 129, 0.9);
+            }
+        }
+        
+        @keyframes closeBtnPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 64, 129, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 64, 129, 1);
+            }
+        }
+        
+        @keyframes textGlow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 235, 59, 1);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+            }
+            50% { 
+                transform: scale(1.15); 
+            }
+        }
+        
+        .pulse {
+            animation: pulse 0.8s infinite;
+        }
+        
+        /* Hujan Hati */
+        #heartRain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999999999998;
+        }
+        
+        .falling-heart {
+            position: absolute;
+            font-size: 32px;
+            animation: fall linear forwards;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Title Animation */
+        .title-glow {
+            animation: textGlow 2s infinite;
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
+        
+        /* Scrollable content */
+        .content {
+            padding-bottom: 100px;
+        }
+        
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            font-size: 18px;
+            line-height: 1.6;
+            backdrop-filter: blur(5px);
+        }
+        
+        .love-note {
+            background: linear-gradient(45deg, rgba(255, 64, 129, 0.2), rgba(255, 107, 185, 0.2));
+            border-left: 5px solid #ff4081;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            text-align: left;
+            font-style: italic;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .title-glow {
+                font-size: 32px;
+            }
+            
+            button {
+                padding: 15px 25px;
+                font-size: 18px;
+            }
+            
+            .love-photo {
+                max-height: 40vh;
+            }
+            
+            .close-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+                top: 20px;
+                right: 20px;
+            }
+        }
+        
+        /* Control button styles */
+        .controls {
+            margin: 40px 0;
+        }
+        
+        .fireworks-control {
+            background: linear-gradient(45deg, #ff9800, #ff5722);
+        }
+        
+        .fireworks-control:hover {
+            background: linear-gradient(45deg, #ffb74d, #ff8a65);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="card">
+                <h1 class="title-glow">🎂 Happy Birthday, AYANG! 🥳</h1>
+                <!-- <p id="countdown">Memuat countdown...</p> -->
+                <p>Hari ini adalah hari spesialmu ke 23 Tahun! Aku sangat bersyukur memilikimu.</p>
+                
+                <div class="controls">
+                    <button onclick="showLove()">💖 Klik untuk Kejutan Cinta! 💖</button>
+                    <div id="loveMeter"></div>
+                    <button class="fireworks-control" onclick="startFireworksShow()">🎆 Luncurkan Kembang Api Cinta! 🎆</button>
+                </div>
+                
+                <div class="message">
+                    <p>Setiap momen bersamamu adalah hadiah terindah.<br>
+                    Semoga hari ini penuh dengan kebahagiaan! ✨</p>
+                </div>
+                
+                <div class="love-note">
+                    <p>Untukmu yang selalu membuat hariku berarti,<br>
+                    Setiap detik bersamamu adalah berkah,<br>
+                    Selamat ulang tahun sayangku! 🥰</p>
+                </div>
+                
+                <p style="font-size: 22px; margin-top: 40px;">Dengan seluruh cintaku,<br><strong style="font-size: 28px;">ELISA DESY KUSUMA</strong></p>
+                
+                <!-- <div class="love-note">
+                    <p>PS: Klik tombol di atas untuk kejutan spesial!<br>
+                    Kamu bisa scroll ke atas dan bawah saat animasi berjalan.</p>
+                </div> -->
+            </div>
+            
+            <!-- Additional content for scrolling -->
+            <div class="card">
+                <h2>💌 Pesan Spesial untukmu</h2>
+                <div class="message">
+                    <p>Di hari ulang tahunmu ke 23 TAHUN , aku ingin mengucapkan...</p>
+                    <p>Terima kasih telah menjadi bagian terindah dalam hidupku. Setiap senyumanmu, setiap tawamu, setiap momen bersamamu adalah harta yang tak ternilai.</p>
+                    <p>Semoga di usia yang baru ini, semua impianmu terkabul, semua harapanmu menjadi kenyataan, dan kebahagiaan selalu menyertaimu.</p>
+                    <p>Aku bersyukur bisa mengenalmu, mencintaimu, dan menjadi bagian dari hidupmu.</p>
+                    <p>Selamat ulang tahun sayang! 🎉🎁🎈</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANIMASI UTAMA - SCROLLABLE -->
+    <div class="main-animation" id="mainAnimation">
+        <div class="animation-content">
+            <!-- Container Foto (akan ditampilkan di sini) -->
+            <div class="photo-container" id="photoContainer">
+                <div class="photo-frame">
+                    <img class="love-photo" id="lovePhoto" src="" alt="Foto Kenangan">
+                    <div class="photo-info" id="photoInfo"></div>
+                </div>
+            </div>
+            
+            <!-- Space untuk scrolling -->
+            <div style="height: 100vh;"></div>
+        </div>
+    </div>
+
+    <!-- Tombol Close -->
+    <button class="close-btn" id="closeBtn" onclick="stopAllAnimations()">✕</button>
+
+    <!-- Container untuk hujan hati -->
+    <div id="heartRain"></div>
+
+    <script>
+        // Daftar foto
+        const photos = ["1.jpg", "2.jpg", "3.jpg"];
+        
+        // Deskripsi untuk setiap foto
+        const photoDescriptions = [
+            "💖 Momen Cantik yang tak terlupakan 💖",
+            "✨ Senyummu membuat hariku cerah ✨",
+            "🌟 Keberhasilanmu adalah anugerah Tuhan 🌟"
+        ];
+        
+        let currentPhotoIndex = 0;
+        let loveClicked = false;
+        let fireworksInterval = null;
+        let photoInterval = null;
+        let isFireworksActive = false;
+        let isAnimationRunning = false;
+
+        // Preload gambar
+        function preloadPhotos() {
+            photos.forEach((photoSrc, index) => {
+                const img = new Image();
+                img.src = photoSrc;
+                img.onload = () => {
+                    console.log(`Foto ${index + 1} siap: ${photoSrc}`);
+                };
+                img.onerror = () => {
+                    console.error(`Gagal memuat: ${photoSrc}`);
+                    photos[index] = "https://via.placeholder.com/800x600/ff4081/ffffff?text=Kenangan+Kita";
+                };
+            });
+        }
+
+        // Panggil preload saat halaman dimuat
+        window.addEventListener('load', preloadPhotos);
+
+        // Countdown
+        // function updateCountdown() {
+        //     const now = new Date();
+        //     const bday = new Date(now.getFullYear(), 11, 19); // 25 Desember
+        //     if (now > bday) {
+        //         bday.setFullYear(bday.getFullYear() + 1);
+        //     }
+        //     const diff = bday - now;
+            
+        //     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        //     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        //     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        //     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+        //     document.getElementById('countdown').innerHTML = 
+        //         `⏳ Hari Spesial: ${days} hari ${hours} jam ${minutes} menit ${seconds} detik`;
+        // }
+        // setInterval(updateCountdown, 1000);
+        // updateCountdown();
+
+        // Love Meter
+        function showLove() {
+            if (!loveClicked) {
+                loveClicked = true;
+                const meter = document.getElementById('loveMeter');
+                meter.innerHTML = '';
+                
+                let percent = 0;
+                const interval = setInterval(() => {
+                    percent += 20;
+                    if (percent <= 1000) {
+                        meter.innerHTML = `💖 Cintaku untukmu: ${percent}% 💖`;
+                        meter.style.fontSize = (28 + percent/40) + 'px';
+                        meter.style.color = getRainbowColor(percent/10);
+                        
+                        if (percent > 800) {
+                            createHeartRain();
+                        }
+                    } else {
+                        clearInterval(interval);
+                        meter.innerHTML = `💖💖💖 CINTAKU TAK TERBATAS! 1000%+ 💖💖💖`;
+                        meter.classList.add('pulse');
+                        
+                        setTimeout(() => {
+                            startFireworksShow();
+                        }, 1000);
+                    }
+                }, 40);
+            }
+        }
+
+        // Warna rainbow
+        function getRainbowColor(value) {
+            const hue = value % 360;
+            return `hsl(${hue}, 100%, 65%)`;
+        }
+
+        // Start Fireworks Show
+        function startFireworksShow() {
+            if (isAnimationRunning) return;
+            
+            isAnimationRunning = true;
+            isFireworksActive = true;
+            
+            // Tampilkan animasi utama (scrollable)
+            const mainAnimation = document.getElementById('mainAnimation');
+            mainAnimation.style.display = 'block';
+            
+            // Scroll ke atas animasi
+            setTimeout(() => {
+                mainAnimation.scrollTop = 0;
+            }, 100);
+            
+            // Tampilkan container foto
+            document.getElementById('photoContainer').style.display = 'block';
+            
+            // Tampilkan tombol close
+            document.getElementById('closeBtn').style.display = 'block';
+            
+            // Mulai pertunjukan
+            startFireworksPerformance();
+            startPhotoSlideshow();
+        }
+
+        // Fireworks Performance
+        function startFireworksPerformance() {
+            if (fireworksInterval) clearInterval(fireworksInterval);
+            
+            // Intensif untuk 5 detik pertama
+            createIntensiveFireworks();
+            
+            fireworksInterval = setInterval(() => {
+                createColoredFirework();
+                createHeartFirework();
+                
+                // Efek spesial acak
+                if (Math.random() > 0.8) {
+                    createSpecialFirework();
+                }
+            }, 200);
+            
+            // Auto stop setelah 60 detik
+            setTimeout(() => {
+                stopAllAnimations();
+            }, 60000);
+        }
+
+        // Fireworks intensif
+        function createIntensiveFireworks() {
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    createColoredFirework();
+                    if (i % 3 === 0) createHeartFirework();
+                    if (i % 10 === 0) createSpecialFirework();
+                }, i * 40);
+            }
+        }
+
+        // Kembang api berwarna
+        function createColoredFirework() {
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            
+            const startX = Math.random() * window.innerWidth;
+            const startY = Math.random() * window.innerHeight;
+            
+            firework.style.left = startX + 'px';
+            firework.style.top = startY + 'px';
+            
+            // Warna acak
+            const hue = Math.random() * 360;
+            firework.style.background = `hsl(${hue}, 100%, 65%)`;
+            firework.style.boxShadow = `0 0 25px hsl(${hue}, 100%, 65%)`;
+            
+            // Arah ledakan
+            const angle = Math.random() * Math.PI * 2;
+            const distance1 = 60 + Math.random() * 120;
+            const distance2 = 120 + Math.random() * 180;
+            
+            firework.style.setProperty('--tx', Math.cos(angle) * distance1 + 'px');
+            firework.style.setProperty('--ty', Math.sin(angle) * distance1 + 'px');
+            firework.style.setProperty('--tx2', Math.cos(angle) * distance2 + 'px');
+            firework.style.setProperty('--ty2', Math.sin(angle) * distance2 + 'px');
+            
+            document.getElementById('mainAnimation').appendChild(firework);
+            
+            // Hapus setelah animasi
+            setTimeout(() => {
+                if (firework.parentNode) {
+                    firework.parentNode.removeChild(firework);
+                }
+            }, 2000);
+        }
+
+        // Kembang api hati
+        function createHeartFirework() {
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💞', '💘', '💝'];
+            const heart = hearts[Math.floor(Math.random() * hearts.length)];
+            
+            const heartFirework = document.createElement('div');
+            heartFirework.classList.add('heart-firework');
+            heartFirework.innerHTML = heart;
+            
+            const startX = Math.random() * window.innerWidth;
+            const startY = Math.random() * window.innerHeight;
+            
+            heartFirework.style.left = startX + 'px';
+            heartFirework.style.top = startY + 'px';
+            heartFirework.style.fontSize = (25 + Math.random() * 50) + 'px';
+            
+            // Warna hati
+            const hue = Math.random() * 360;
+            heartFirework.style.color = `hsl(${hue}, 100%, 75%)`;
+            
+            document.getElementById('mainAnimation').appendChild(heartFirework);
+            
+            // Hapus setelah animasi
+            setTimeout(() => {
+                if (heartFirework.parentNode) {
+                    heartFirework.parentNode.removeChild(heartFirework);
+                }
+            }, 3000);
+        }
+
+        // Kembang api spesial
+        function createSpecialFirework() {
+            const particles = 16;
+            const centerX = Math.random() * window.innerWidth;
+            const centerY = Math.random() * window.innerHeight;
+            
+            for (let i = 0; i < particles; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.classList.add('firework');
+                    
+                    particle.style.left = centerX + 'px';
+                    particle.style.top = centerY + 'px';
+                    
+                    const angle = (i * 2 * Math.PI) / particles;
+                    const distance = 180;
+                    
+                    particle.style.setProperty('--tx', Math.cos(angle) * 60 + 'px');
+                    particle.style.setProperty('--ty', Math.sin(angle) * 60 + 'px');
+                    particle.style.setProperty('--tx2', Math.cos(angle) * distance + 'px');
+                    particle.style.setProperty('--ty2', Math.sin(angle) * distance + 'px');
+                    
+                    const hue = (i * 22.5) % 360;
+                    particle.style.background = `hsl(${hue}, 100%, 65%)`;
+                    particle.style.boxShadow = `0 0 20px hsl(${hue}, 100%, 65%)`;
+                    
+                    document.getElementById('mainAnimation').appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 2000);
+                }, i * 30);
+            }
+        }
+
+        // Slideshow Foto (setiap 3 detik)
+        function startPhotoSlideshow() {
+            // Tampilkan foto pertama
+            showNextPhoto();
+            
+            // Ganti foto setiap 3 detik
+            if (photoInterval) clearInterval(photoInterval);
+            photoInterval = setInterval(showNextPhoto, 3000);
+        }
+
+        // Tampilkan foto berikutnya
+        function showNextPhoto() {
+            const photo = document.getElementById('lovePhoto');
+            const photoInfo = document.getElementById('photoInfo');
+            
+            if (photos.length === 0) return;
+            
+            // Update foto
+            photo.src = photos[currentPhotoIndex];
+            
+            // Handle error
+            photo.onerror = function() {
+                this.src = "https://via.placeholder.com/800x600/ff4081/ffffff?text=Kenangan+Indah+Kita";
+            };
+            
+            // Update deskripsi
+            if (photoDescriptions[currentPhotoIndex]) {
+                photoInfo.textContent = photoDescriptions[currentPhotoIndex];
+            } else {
+                photoInfo.textContent = `Foto ${currentPhotoIndex + 1}`;
+            }
+            
+            // Update index untuk foto berikutnya
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            
+            // Tambah efek hati saat ganti foto
+            createHeartFireworkNearPhoto();
+        }
+
+        // Buat hati dekat foto
+        function createHeartFireworkNearPhoto() {
+            const photo = document.getElementById('lovePhoto');
+            const rect = photo.getBoundingClientRect();
+            const containerRect = document.getElementById('mainAnimation').getBoundingClientRect();
+            
+            const hearts = ['❤️', '💖', '💕', '💗'];
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart-firework');
+                    heart.innerHTML = hearts[i];
+                    
+                    // Posisi relatif terhadap animasi container
+                    const offsetX = (Math.random() * 200 - 100);
+                    const offsetY = (Math.random() * 150 - 75);
+                    
+                    const photoCenterX = rect.left - containerRect.left + rect.width/2;
+                    const photoCenterY = rect.top - containerRect.top + rect.height/2;
+                    
+                    heart.style.left = (photoCenterX + offsetX) + 'px';
+                    heart.style.top = (photoCenterY + offsetY) + 'px';
+                    heart.style.fontSize = '30px';
+                    heart.style.color = '#ff4081';
+                    heart.style.animationDuration = '2s';
+                    
+                    document.getElementById('mainAnimation').appendChild(heart);
+                    
+                    setTimeout(() => {
+                        if (heart.parentNode) {
+                            heart.parentNode.removeChild(heart);
+                        }
+                    }, 2000);
+                }, i * 300);
+            }
+        }
+
+        // Hujan hati
+        function createHeartRain() {
+            const heartRain = document.getElementById('heartRain');
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💞', '💘', '💝'];
+            
+            for(let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('falling-heart');
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (25 + Math.random() * 40) + 'px';
+                    heart.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                    heart.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                    heartRain.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        if (heart.parentNode) {
+                            heart.parentNode.removeChild(heart);
+                        }
+                    }, 7000);
+                }, i * 150);
+            }
+        }
+
+        // STOP SEMUA ANIMASI
+        function stopAllAnimations() {
+            // Clear semua interval
+            if (fireworksInterval) {
+                clearInterval(fireworksInterval);
+                fireworksInterval = null;
+            }
+            if (photoInterval) {
+                clearInterval(photoInterval);
+                photoInterval = null;
+            }
+            
+            // Reset status
+            isFireworksActive = false;
+            isAnimationRunning = false;
+            
+            // Sembunyikan animasi dan foto
+            document.getElementById('mainAnimation').style.display = 'none';
+            document.getElementById('photoContainer').style.display = 'none';
+            
+            // Sembunyikan tombol close
+            document.getElementById('closeBtn').style.display = 'none';
+            
+            // Reset foto index
+            currentPhotoIndex = 0;
+            
+            // Scroll kembali ke konten utama
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Inisialisasi
+        window.onload = function() {
+            setTimeout(() => {
+                createHeartRain();
+            }, 1000);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'f' || event.key === 'F') {
+                    startFireworksShow();
+                }
+                if (event.key === 'Escape') {
+                    stopAllAnimations();
+                }
+            });
+            
+            // Info keyboard shortcuts
+            console.log("Keyboard Shortcuts:");
+            console.log("F - Start Fireworks Show");
+            console.log("ESC - Stop All Animations");
+        };
+    </script>
+</body>
+</html>
